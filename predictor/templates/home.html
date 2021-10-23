@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Text generation</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}" />
+    <script
+      src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
+      type="text/javascript"
+    ></script>
+  </head>
+
+  <body style="background-image: url('static/img/img.jpg')">
+    <div class="container">
+      <div class="navbar">
+        <div class="logo">Text Generator3</div>
+      </div>
+    </div>
+
+    <form action="">
+      <div class="wrapper">
+        <div class="text_container">
+          <h1 style="margin-left: 80px; margin-top: 30px">Type something</h1>
+        </div>
+        <br />
+        <div class="area">
+          {% comment %} {{form.media}} {{form.as_p}} {% endcomment %}
+          <input type="text" name="Mytextarea" id="id_content" />
+        </div>
+      </div>
+    </form>
+    <input
+      type="text"
+      name="textbox"
+      id="content"
+      style="margin-left: 80px; margin-top: 30px; padding: 15px 32px"
+    />
+    <br />
+    <button
+      type="submit"
+      style="
+        margin-top: 30px;
+        margin-left: 80px;
+        padding: 15px 32px;
+        background-color: #66723b;
+        font-weight: bold;
+        text-transform: uppercase;
+      "
+      onclick="generate()"
+    >
+      Generate text
+    </button>
+
+    {% comment %} <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
+    <script>
+      CKEDITOR.replace("id_content");
+    </script> {% endcomment %}
+
+    <script>
+      function generate() {
+        id_content = document.getElementById("content").value;
+        console.log(id_content);
+        $.ajax({
+          url: "/generate",
+          data: {
+            id_content: id_content,
+          },
+          dataType: "json",
+          success: function (data) {
+            document.getElementById("content").value = data.result;
+            console.log(data);
+          },
+        });
+      }
+    </script>
+  </body>
+</html>
